@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,15 +17,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home', ['title' => 'Home']);
 
-Route::get('/about', function () {
-    return view('about', [
-        'title' => 'About',
-        'name' => 'Didik Prabowo',
-        'age' => 19,
-        'image' => 'contoh.png'
-    ]);
-});
+Route::view('/about', 'about', [
+    'title' => 'About',
+    'name' => 'Didik Prabowo',
+    'age' => 19,
+    'image' => 'contoh.png'
+]);
 
 Route::get('/blog', [PostController::class, 'index']);
 
-Route::get('/post/{slug}', [PostController::class, 'show']);
+Route::get('/post/{post:slug}', [PostController::class, 'show']);
+
+Route::get('/category/{category:slug}', function (Category $category) {
+    return view('category', [
+        'title' => 'Post Category',
+        'category' => $category->name,
+        'categories' => $category->posts
+    ]);
+});
