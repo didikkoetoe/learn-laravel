@@ -35,3 +35,8 @@ Route::get('/category/{category:slug}', function (Category $category) {
         'categories' => $category->posts
     ]);
 });
+
+Route::view('/categories', 'categories', [
+    'title' => 'Daftar Kategori',
+    'categories' => Category::all()
+]);
