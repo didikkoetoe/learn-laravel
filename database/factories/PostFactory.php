@@ -15,12 +15,12 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->words(mt_rand(1, 5), true),
-            'category_id' => 1,
-            'user_id' => mt_rand(1, 5),
-            'slug' => Str::slug($this->faker->words(mt_rand(1, 4), true), '-'),
-            'excerpt' => $this->faker->sentence(),
-            'body' => $this->faker->paragraph()
+            'title' => $this->faker->sentence(mt_rand(1, 5)),
+            'slug' => $this->faker->slug(),
+            'excerpt' => $this->faker->paragraph(),
+            'body' => $this->faker->paragraph(mt_rand(5, 10)),
+            'category_id' => mt_rand(1, 3),
+            'user_id' => mt_rand(1, 5)
         ];
     }
 }

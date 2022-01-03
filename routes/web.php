@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
-use App\Models\Category;
+use App\Models\{Category, User};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +28,11 @@ Route::get('/blog', [PostController::class, 'index']);
 
 Route::get('/post/{post:slug}', [PostController::class, 'show']);
 
+Route::view('/categories', 'categories', [
+    'title' => 'Daftar Kategori',
+    'categories' => Category::all()
+]);
+
 Route::get('/category/{category:slug}', function (Category $category) {
     return view('category', [
         'title' => 'Post Category',
@@ -36,7 +41,9 @@ Route::get('/category/{category:slug}', function (Category $category) {
     ]);
 });
 
-Route::view('/categories', 'categories', [
-    'title' => 'Daftar Kategori',
-    'categories' => Category::all()
-]);
+Route::get('/authors/{author:username}', function (User $author) {
+    return view('posts', [
+        'title' => 'User Post',
+        'posts' => $author->posts,
+    ]);
+});
