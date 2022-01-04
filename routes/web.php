@@ -26,24 +26,27 @@ Route::view('/about', 'about', [
 
 Route::get('/blog', [PostController::class, 'index']);
 
-Route::get('/post/{post:slug}', [PostController::class, 'show']);
+Route::get('/posts/{post:slug}', [PostController::class, 'show']);
 
 Route::view('/categories', 'categories', [
     'title' => 'Daftar Kategori',
+    'active' => 'categories',
     'categories' => Category::all()
 ]);
 
 Route::get('/category/{category:slug}', function (Category $category) {
-    return view('category', [
-        'title' => 'Post Category',
+    return view('posts', [
+        'title' => 'Post Category : ' . $category->name,
+        'active' => 'categories',
         'category' => $category->name,
-        'categories' => $category->posts
+        'posts' => $category->posts->load('author', 'category')
     ]);
 });
 
 Route::get('/authors/{author:username}', function (User $author) {
     return view('posts', [
-        'title' => 'User Post',
-        'posts' => $author->posts,
+        'title' => 'User Post : ' . $author->name,
+        'active' => 'blog',
+        'posts' => $author->posts->load('category', 'author'),
     ]);
 });
